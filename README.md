@@ -1,4 +1,4 @@
-# json-form
+# jason-form
 
 Simple node module for converting JSON objects to form data that is compatible with Rails' parameter naming conventions.
 
