@@ -1,0 +1,48 @@
+'use strict';
+
+function isArray(object){
+  return object !== null && object !== undefined && object.constructor === Array;
+}
+
+function isBasicObject(object){
+  return object === Object(object);
+}
+
+function buildFormDataAttributes(key, value){
+  var formData = [];
+
+  if(isArray(value)){
+    for(var arrayIndex in value){
+      formData = formData.concat(buildFormDataAttributes(key + '[]', value[arrayIndex]));
+    }
+  } else if(isBasicObject(value)){
+    for(var objectKey in value){
+      if(!value.hasOwnProperty(objectKey)){ continue; }
+
+      formData = formData.concat(buildFormDataAttributes(key + '[' + objectKey +']', value[objectKey]));
+    }
+
+  } else {
+    formData.push([key, value]);
+  }
+
+  return formData;
+}
+
+module.exports  = {
+  from: function(json){
+    var formData = [];
+
+    if(json !== null || json !== undefined){
+
+      for(var key in json){
+        if(!json.hasOwnProperty(key)){ continue; }
+
+        formData = formData.concat(buildFormDataAttributes(key, json[key]));
+      }
+
+    }
+
+    return formData;
+  }
+};
