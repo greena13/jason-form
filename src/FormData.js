@@ -12,9 +12,16 @@ function buildFormDataAttributes(key, value){
   var formData = [];
 
   if(isArray(value)){
-    for(var arrayIndex in value){
-      formData = formData.concat(buildFormDataAttributes(key + '[]', value[arrayIndex]));
+    var prefix = key + '[]';
+
+    if(value.length === 0){
+      formData.push([prefix, null]);
+    } else {
+      for(var arrayIndex in value){
+        formData = formData.concat(buildFormDataAttributes(prefix, value[arrayIndex]));
+      }
     }
+
   } else if(isBasicObject(value)){
     for(var objectKey in value){
       if(!value.hasOwnProperty(objectKey)){ continue; }

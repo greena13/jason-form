@@ -35,7 +35,22 @@ describe("FormData.from", function(){
       [arrayKeyWithSuffix, 3]
     ];
 
-    expect(FormData.from(jsonObject), expected);
+    expect(FormData.from(jsonObject)).toEqual(expected);
+  });
+
+  it('it correctly encodes an empty array []', function(){
+    var jsonObject = {};
+    var arrayKey = 'array';
+
+    jsonObject[arrayKey] = [];
+
+    var arrayKeyWithSuffix = arrayKey+'[]';
+
+    var expected = [
+      [arrayKeyWithSuffix, null]
+    ];
+
+    expect(FormData.from(jsonObject)).toEqual(expected);
   });
 
   it('it postfixes [][key] to keys for arrays of objects', function(){
@@ -64,7 +79,7 @@ describe("FormData.from", function(){
       [objectKeyWithSuffix('two'), 'four']
     ];
 
-    expect(FormData.from(jsonObject), expected);
+    expect(FormData.from(jsonObject)).toEqual(expected);
   });
 
   it('it postfixes [key] to keys for object values', function(){
@@ -87,7 +102,7 @@ describe("FormData.from", function(){
       [objectKeyWithSuffix('three'), 'three']
     ];
 
-    expect(FormData.from(jsonObject), expected);
+    expect(FormData.from(jsonObject)).toEqual(expected);
   });
 
   it('it postfixes [key1][key2] to keys for objects containing objects', function(){
@@ -116,7 +131,7 @@ describe("FormData.from", function(){
       [objectKeyWithSuffix('two', 'oneB'), 'four']
     ];
 
-    expect(FormData.from(jsonObject), expected);
+    expect(FormData.from(jsonObject)).toEqual(expected);
   });
 
 
