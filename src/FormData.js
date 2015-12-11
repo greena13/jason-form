@@ -8,6 +8,12 @@ function isBasicObject(object){
   return object === Object(object);
 }
 
+var fileConstantIsDefined = typeof File === 'function';
+
+function isFile(object){
+  return fileConstantIsDefined && object.constructor === File
+}
+
 function buildFormDataAttributes(key, value){
   var formData = [];
 
@@ -22,7 +28,7 @@ function buildFormDataAttributes(key, value){
       }
     }
 
-  } else if(isBasicObject(value)){
+  } else if(value && !isFile(value) && isBasicObject(value)){
     for(var objectKey in value){
       if(!value.hasOwnProperty(objectKey)){ continue; }
 
