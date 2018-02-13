@@ -17,6 +17,7 @@
     "RESTful",
     "API"
   ],
+  "typings": "./index.d.ts",
   "author": "Aleck Greenham",
   "license": "ISC",
   "bugs": {

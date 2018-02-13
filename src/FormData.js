@@ -42,16 +42,30 @@ function buildFormDataAttributes(key, value){
   return formData;
 }
 
+/**
+ * Module containing utility functions for converting from JavaScript objects to
+ * an array of tuples consistent with the naming and formatting conventions of
+ * Ruby on Rails
+ */
 module.exports  = {
-  from: function(json){
+
+  /**
+   * Converts an arbitrarily deep target object into a flat array of key-value
+   * tuples with the key converted to a format that is consistent with the
+   * naming and formatting conventions of Ruby on Rails.
+   *
+   * @param {Object} target Object to convert to an array of key-value tuples
+   * @returns {Array} array of key-value tuples
+   */
+  from: function(target){
     var formData = [];
 
-    if(json !== null || json !== undefined){
+    if(target !== null || target !== undefined){
 
-      for(var key in json){
-        if(!json.hasOwnProperty(key)){ continue; }
+      for(var key in target){
+        if(!target.hasOwnProperty(key)){ continue; }
 
-        formData = formData.concat(buildFormDataAttributes(key, json[key]));
+        formData = formData.concat(buildFormDataAttributes(key, target[key]));
       }
 
     }

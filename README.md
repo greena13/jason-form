@@ -5,14 +5,12 @@
 [![GitHub license](https://img.shields.io/github/license/greena13/jason-form.svg)](https://github.com/greena13/jason-form/blob/master/LICENSE)
 
 
-Simple node module for converting JSON objects to form data that is compatible with Rails' parameter naming conventions.
+Utility for converting JavaScript objects to an array of key-value tuples that is compatible with Rails' parameter naming conventions and can easily be used to populate the contents of a FormData instance.
 
-It accepts a JSON object and returns an array of key-value pairs.
-
-## Examples
+## Usage
 
 ```javascript
-var FormData = require('jason-form').FormData;
+var RailsFriendly = require('jason-form').FormData;
 
 var json = {
  string: 'string',
@@ -23,5 +21,11 @@ var json = {
   }
 };
 
-FormData.from(json) // [['string', 'string'], ['array[]', 1], ['array[]', 2], ['object[foo]', 'foo'] ['object[bar]', 'bar']]
+var railsFriendlyValues = RailsFriendly.from(json) // [['string', 'string'], ['array[]', 1], ['array[]', 2], ['object[foo]', 'foo'] ['object[bar]', 'bar']]
+
+var formData = new FormData();
+
+railsFriendlyValues.forEach(function(keyAndValue) {
+  formData.append(keyAndValue[0], keyAndValue[1]);
+})
 ```
