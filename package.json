@@ -4,7 +4,7 @@
   "description": "Converts JSON objects to array of Rails-friendly form-data key-value tuples",
   "main": "lib",
   "scripts": {
-    "test": "jasmine"
+    "tests": "jasmine"
   },
   "repository": {
     "type": "git",
