@@ -1,8 +1,8 @@
 # jason-form
 
-[![npm](https://img.shields.io/npm/dm/json-form.svg)]()
-[![Build Status](https://travis-ci.org/greena13/json-form.svg)](https://travis-ci.org/greena13/json-form)
-[![GitHub license](https://img.shields.io/github/license/greena13/json-form.svg)](https://github.com/greena13/json-form/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/dm/jason-form.svg)]()
+[![Build Status](https://travis-ci.org/greena13/jason-form.svg)](https://travis-ci.org/greena13/jason-form)
+[![GitHub license](https://img.shields.io/github/license/greena13/jason-form.svg)](https://github.com/greena13/jason-form/blob/master/LICENSE)
 
 
 Simple node module for converting JSON objects to form data that is compatible with Rails' parameter naming conventions.
