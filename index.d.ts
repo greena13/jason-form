@@ -2,17 +2,9 @@
 // Project: jason-form
 
 /**
- * Module containing utility functions for converting from JavaScript objects to
- * an array of tuples consistent with the naming and formatting conventions of
- * Ruby on Rails
+ * Converts an arbitrarily deep target object into a FormData instance
+ * containing keys and value in a format that is consistent with the
+ * naming and formatting conventions of Ruby on Rails.
  */
-
-export namespace FormData {
-    /**
-     * Converts an arbitrarily deep target object into a flat array of key-value
-     * tuples with the key converted to a format that is consistent with the
-     * naming and formatting conventions of Ruby on Rails.
-     */
-    function from(target: Object): Array<[string, any]>;
-}
+export function formData(target: Object): FormData;
 

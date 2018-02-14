@@ -41,7 +41,7 @@ function buildFormDataAttributes(key, value){
  * naming and formatting conventions of Ruby on Rails.
  *
  * @param {Object} target Object to convert to an array of key-value tuples
- * @returns {Array} array of key-value tuples
+ * @returns {FormData} form data compatible with Rails
  */
 export default function formData(target) {
 
