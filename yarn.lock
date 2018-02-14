@@ -1593,7 +1593,7 @@ glob-parent@^3.1.0:
     is-glob "^3.1.0"
     path-dirname "^1.0.0"
 
-glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
+glob@^7.0.3, glob@^7.0.5, glob@^7.0.6, glob@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -2009,6 +2009,17 @@ isobject@^3.0.0, isobject@^3.0.1:
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+
+jasmine-core@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.0.0.tgz#8cdb20cf336b1b86830edc58b1a8aac47455e94c"
+
+jasmine@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-3.0.0.tgz#e3d9476c0faf937d0f6982f73c847e5176eab1b5"
+  dependencies:
+    glob "^7.0.6"
+    jasmine-core "~3.0.0"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
