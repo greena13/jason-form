@@ -1,6 +1,6 @@
 {
   "name": "jason-form",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Converts JSON objects to array of Rails-friendly form-data key-value tuples",
   "main": "index.js",
   "scripts": {
