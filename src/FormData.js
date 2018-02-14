@@ -1,53 +1,41 @@
-'use strict';
-
 function isArray(object){
-  return object !== null && object !== undefined && object.constructor === Array;
+  return object !== null && typeof object !== 'undefined' && object.constructor === Array;
 }
 
 function isBasicObject(object){
   return object === Object(object);
 }
 
-var fileConstantIsDefined = typeof File === 'function';
+const fileConstantIsDefined = typeof File === 'function';
 
 function isFile(object){
   return fileConstantIsDefined && object.constructor === File
 }
 
 function buildFormDataAttributes(key, value){
-  var formData = [];
-
-  if(isArray(value)){
-    var prefix = key + '[]';
+  if (isArray(value)){
+    const prefix = `${key}[]`;
 
     if(value.length === 0){
-      formData.push([prefix, null]);
+      return [
+        [ prefix, null ]
+      ];
     } else {
-      for(var arrayIndex in value){
-        formData = formData.concat(buildFormDataAttributes(prefix, value[arrayIndex]));
-      }
+      return value.reduce((memo, element) => memo.concat(buildFormDataAttributes(prefix, element)), []);
     }
 
   } else if(value && !isFile(value) && isBasicObject(value)){
-    for(var objectKey in value){
-      if(!value.hasOwnProperty(objectKey)){ continue; }
 
-      formData = formData.concat(buildFormDataAttributes(key + '[' + objectKey +']', value[objectKey]));
-    }
+    return Object.keys(value).reduce((memo, objectKey) => memo.concat(buildFormDataAttributes(`${key}[${objectKey}]`, value[objectKey])), []);
 
   } else {
-    formData.push([key, value]);
+    return [
+      [ key, value ]
+    ];
   }
-
-  return formData;
 }
 
-/**
- * Module containing utility functions for converting from JavaScript objects to
- * an array of tuples consistent with the naming and formatting conventions of
- * Ruby on Rails
- */
-module.exports  = {
+export default {
 
   /**
    * Converts an arbitrarily deep target object into a flat array of key-value
@@ -57,19 +45,14 @@ module.exports  = {
    * @param {Object} target Object to convert to an array of key-value tuples
    * @returns {Array} array of key-value tuples
    */
-  from: function(target){
-    var formData = [];
+   from(target){
 
-    if(target !== null || target !== undefined){
+    if(target !== null || typeof target !== 'undefined'){
 
-      for(var key in target){
-        if(!target.hasOwnProperty(key)){ continue; }
+      return Object.keys(target).reduce((memo, key) => memo.concat(buildFormDataAttributes(key, target[key])), []);
 
-        formData = formData.concat(buildFormDataAttributes(key, target[key]));
-      }
-
+    } else {
+      return [];
     }
-
-    return formData;
   }
 };

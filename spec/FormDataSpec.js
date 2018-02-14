@@ -1,10 +1,9 @@
-"use strict";
+import JasonForm from '../jason-form.development';
 
-var FormData = require('../index').FormData;
+describe('FormData.from', () => {
 
-describe("FormData.from", function(){
-  it("does not change keys for simple data type values", function(){
-    var simpleDataTypes = {
+  it('does not change keys for simple data type values', () =>{
+    const input = {
       string: 'string',
       integer: 1,
       float: 1.0,
@@ -12,126 +11,141 @@ describe("FormData.from", function(){
       undefined: undefined
     };
 
-    for(var dataType in simpleDataTypes){
-      var jsonObject = {};
-      jsonObject[dataType] = simpleDataTypes[dataType];
-
-      expect(FormData.from(jsonObject)).toEqual([[dataType, simpleDataTypes[dataType]]]);
-    }
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'string',
+        'string'
+      ],
+      [
+        'integer',
+        1
+      ],
+      [
+        'float',
+        1.0
+      ],
+      [
+        'null',
+        null
+      ],
+      [
+        'undefined',
+        undefined
+      ]
+    ]);
 
   });
 
-  it('it postfixes [] to keys for array values', function(){
-    var jsonObject = {};
-    var arrayKey = 'array';
+  it('it appends [] to keys for array values', () => {
+    const input = {
+      array: [1, 2, 3]
+    };
 
-    jsonObject[arrayKey] = [1,2,3];
-
-    var arrayKeyWithSuffix = arrayKey+'[]';
-
-    var expected = [
-      [arrayKeyWithSuffix, 1],
-      [arrayKeyWithSuffix, 2],
-      [arrayKeyWithSuffix, 3]
-    ];
-
-    expect(FormData.from(jsonObject)).toEqual(expected);
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'array[]', 1
+      ],
+      [
+        'array[]', 2
+      ],
+      [
+        'array[]', 3
+      ]
+    ]);
   });
 
-  it('it correctly encodes an empty array []', function(){
-    var jsonObject = {};
-    var arrayKey = 'array';
+  it('it correctly encodes an empty array []', () => {
+    const input = {
+      array: []
+    };
 
-    jsonObject[arrayKey] = [];
-
-    var arrayKeyWithSuffix = arrayKey+'[]';
-
-    var expected = [
-      [arrayKeyWithSuffix, null]
-    ];
-
-    expect(FormData.from(jsonObject)).toEqual(expected);
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'array[]', null
+      ]
+    ]);
   });
 
-  it('it postfixes [][key] to keys for arrays of objects', function(){
-    var jsonObject = {};
-    var arrayKey = 'array';
+  it('it postfixes [][key] to keys for arrays of objects', () => {
+    const input = {
+      array: [
+        {
+          one: 'one',
+          two: 'two'
+        },
+        {
+          one: 'three',
+          two: 'four'
+        }
+      ]
+    };
 
-    jsonObject[arrayKey] = [
-      {
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'array[][one]', 'one'
+      ],
+      [
+        'array[][two]', 'two'
+      ],
+      [
+        'array[][one]', 'three'
+      ],
+      [
+        'array[][two]', 'four'
+      ]
+    ]);
+  });
+
+  it('it postfixes [key] to keys for object values', () => {
+    const input = {
+      object: {
         one: 'one',
-        two: 'two'
-      },
-      {
-        one: 'three',
-        two: 'four'
-      }
-    ];
-
-    function objectKeyWithSuffix(key){
-      return arrayKey + '[][' + key + ']'
-    }
-
-    var expected = [
-      [objectKeyWithSuffix('one'), 'one'],
-      [objectKeyWithSuffix('two'), 'two'],
-      [objectKeyWithSuffix('one'), 'three'],
-      [objectKeyWithSuffix('two'), 'four']
-    ];
-
-    expect(FormData.from(jsonObject)).toEqual(expected);
-  });
-
-  it('it postfixes [key] to keys for object values', function(){
-    var jsonObject = {};
-    var objectName = 'object';
-
-    function objectKeyWithSuffix(key){
-      return objectName + '[' + key + ']'
-    }
-
-    jsonObject[objectName] = {
-      one: 'one',
-      two: 'two',
-      three: 'three'
-    };
-
-    var expected = [
-      [objectKeyWithSuffix('one'), 'one'],
-      [objectKeyWithSuffix('two'), 'two'],
-      [objectKeyWithSuffix('three'), 'three']
-    ];
-
-    expect(FormData.from(jsonObject)).toEqual(expected);
-  });
-
-  it('it postfixes [key1][key2] to keys for objects containing objects', function(){
-    var jsonObject = {};
-    var objectName = 'object';
-
-    function objectKeyWithSuffix(key1, key2){
-      return objectName + '[' + key1 + '][' + key2 + ']';
-    }
-
-    jsonObject[objectName] = {
-      one: {
-        oneA: 'one',
-        oneB: 'two'
-      },
-      two: {
-        oneA: 'three',
-        oneB: 'four'
+        two: 'two',
+        three: 'three'
       }
     };
 
-    var expected = [
-      [objectKeyWithSuffix('one', 'oneA'), 'one'],
-      [objectKeyWithSuffix('one', 'oneB'), 'two'],
-      [objectKeyWithSuffix('two', 'oneA'), 'three'],
-      [objectKeyWithSuffix('two', 'oneB'), 'four']
-    ];
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'object[one]', 'one'
+      ],
+      [
+        'object[two]', 'two'
+      ],
+      [
+        'object[three]', 'three'
+      ]
+    ]);
+  });
 
-    expect(FormData.from(jsonObject)).toEqual(expected);
+  it('it postfixes [key1][key2] to keys for objects containing objects', () => {
+    const input = {
+      object: {
+        one: {
+          oneA: 'one',
+          oneB: 'two'
+        },
+        two: {
+          oneA: 'three',
+          oneB: 'four'
+        }
+      }
+    };
+
+    expect(JasonForm.FormData.from(input)).toEqual([
+      [
+        'object[one][oneA]', 'one'
+      ],
+      [
+        'object[one][oneB]', 'two'
+      ],
+      [
+        'object[two][oneA]', 'three'
+      ],
+      [
+        'object[two][oneB]', 'four'
+      ]
+    ]);
   });
 
 
