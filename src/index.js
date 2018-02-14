@@ -1,5 +1,5 @@
-import FormData from './FormData';
+import formData from './formData';
 
 module.exports = {
-  FormData
+  formData
 };

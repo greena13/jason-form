@@ -35,18 +35,17 @@ function buildFormDataAttributes(key, value){
   }
 }
 
-export default {
+/**
+ * Converts an arbitrarily deep target object into a flat array of key-value
+ * tuples with the key converted to a format that is consistent with the
+ * naming and formatting conventions of Ruby on Rails.
+ *
+ * @param {Object} target Object to convert to an array of key-value tuples
+ * @returns {Array} array of key-value tuples
+ */
+export default function formData(target) {
 
-  /**
-   * Converts an arbitrarily deep target object into a flat array of key-value
-   * tuples with the key converted to a format that is consistent with the
-   * naming and formatting conventions of Ruby on Rails.
-   *
-   * @param {Object} target Object to convert to an array of key-value tuples
-   * @returns {Array} array of key-value tuples
-   */
-   from(target){
-
+  const attributesList = function(){
     if(target !== null || typeof target !== 'undefined'){
 
       return Object.keys(target).reduce((memo, key) => memo.concat(buildFormDataAttributes(key, target[key])), []);
@@ -54,5 +53,13 @@ export default {
     } else {
       return [];
     }
-  }
-};
+  }();
+
+  const formDataInstance = new FormData();
+
+  attributesList.forEach(([key, value]) => {
+    formDataInstance.append(key, value);
+  });
+
+  return formDataInstance;
+}

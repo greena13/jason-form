@@ -1,6 +1,6 @@
 import JasonForm from '../jason-form.development';
 
-describe('FormData.from', () => {
+describe('formData', () => {
 
   it('does not change keys for simple data type values', () =>{
     const input = {
@@ -11,7 +11,7 @@ describe('FormData.from', () => {
       undefined: undefined
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'string',
         'string'
@@ -41,7 +41,7 @@ describe('FormData.from', () => {
       array: [1, 2, 3]
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'array[]', 1
       ],
@@ -59,7 +59,7 @@ describe('FormData.from', () => {
       array: []
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'array[]', null
       ]
@@ -80,7 +80,7 @@ describe('FormData.from', () => {
       ]
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'array[][one]', 'one'
       ],
@@ -105,7 +105,7 @@ describe('FormData.from', () => {
       }
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'object[one]', 'one'
       ],
@@ -132,7 +132,7 @@ describe('FormData.from', () => {
       }
     };
 
-    expect(JasonForm.FormData.from(input)).toEqual([
+    expect(JasonForm.formData(input).getAll()).toEqual([
       [
         'object[one][oneA]', 'one'
       ],
